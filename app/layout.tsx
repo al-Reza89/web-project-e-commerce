@@ -10,8 +10,8 @@ import getCurrentUser from "./actions/getCurrentUser";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Airbnb",
-  description: "Airbnb clone",
+  title: "e-commerce",
+  description: "Mechanical keyboard",
 };
 
 export default async function RootLayout({

@@ -18,22 +18,20 @@ model User {
   emailVerified   DateTime?
   image           String?
   hashedPassword  String?
+  role  Role   @default(USER)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   favoriteIds     String[] @db.ObjectId
 
-// user have many accounts account er array rakhbo
+  banks Bank[]
   accounts Account[]
-  // listings Listing[]
-  // reservations Reservation[]
+  approveMoneys ApproveMoney[]
+  products Products[]
+  sellProduct SellProducts[]
+
 }
 
 
-
-
-
-
-// socal login er jonno ei rokom e houa lagbe
 model Account {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   userId             String   @db.ObjectId
@@ -48,47 +46,84 @@ model Account {
   id_token           String?  @db.String
   session_state      String?
 
-// relation create kore userId field diye jar reference e User model er id rakhe
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-// duitar e unique combination houa lagbe 
   @@unique([provider, providerAccountId])
 }
 
 
+model Bank {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  secret String
+  createStatus Boolean @default(false)
+  currentMoney Int
+  userId     String   @db.ObjectId
+
+
+  user    User     @relation(fields: [userId], references: [id],onDelete:Cascade)
+
+
+  banks ApproveMoney[]
+
+}
+
+
+model ApproveMoney {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  bankId String @db.ObjectId
+  ammount Int
+  status MoneyStatus @default(PENDING)
+
+  user User @relation(fields: [userId],references: [id],onDelete:Cascade)
+  bank Bank @relation(fields: [bankId],references: [id],onDelete:Cascade)
 
 
 
-// model Listing {
-//   id     String @id @default(auto()) @map("_id") @db.ObjectId
-//   userId String @db.ObjectId
-//   title String
-//   description String
-//   imageSrc String
-//   createdAt DateTime @default(now())
-//   category  String
-//   roomCount Int
-//   bathroomCount Int
-//   guestCount Int
-//   locationValue String
-//   price Int
+}
 
-//   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-//   // reservation er shathe o ekta relation rakhlam
-//   reservations Reservation[]
-// }
+model Products{
+   id     String @id @default(auto()) @map("_id") @db.ObjectId
+   userId String @db.ObjectId
+   details String
+   ImageUrl String
+   price Int
+   stock Int
+
+  user User @relation(fields: [userId],references: [id],onDelete:Cascade)
+
+  sellProducts SellProducts[]
+
+}
 
 
-// model Reservation {
-//   id String @id @default(auto()) @map("_id") @db.ObjectId
-//   userId String @db.ObjectId
-//   listingId String @db.ObjectId  
-//   startDate DateTime
-//   endDate DateTime
-//   totalPrice Int
-//   createdAt DateTime @default(now())
+model SellProducts{
+     id     String @id @default(auto()) @map("_id") @db.ObjectId
+    productId String @db.ObjectId
+    userId String @db.ObjectId
+    productCount Int
+    price Int
 
-//   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-//   listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
-// }
+  user User @relation(fields: [userId],references: [id],onDelete:Cascade)
+  product Products @relation(fields: [productId],references: [id],onDelete:Cascade)
+
+}
+
+
+
+enum MoneyStatus {
+  PENDING
+  DENY
+  APPROVE
+}
+
+
+enum Role {
+  USER
+  ADMIN
+  BANK
+}
+
+
+
