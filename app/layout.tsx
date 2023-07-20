@@ -7,6 +7,7 @@ import ToasterProvider from "./providers/ToasterProvider";
 import LoginModal from "./components/modals/LoginModal";
 import getCurrentUser from "./actions/getCurrentUser";
 import getBankInformation from "./actions/getBankInformation";
+import BankAccountModal from "./components/modals/BankAccountModal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,6 +34,7 @@ export default async function RootLayout({
         <ToasterProvider />
         <LoginModal />
         <RegisterModal />
+        <BankAccountModal />
         <Navbar currentUser={currentUser} bankInformation={bankInformation} />
         {children}
       </body>

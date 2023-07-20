@@ -7,6 +7,7 @@ import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import { Bank, User } from "@prisma/client";
 import { signOut } from "next-auth/react";
+import useBankAccountModal from "@/app/hooks/useBankAccountModal";
 
 interface UserMenuProps {
   currentUser?: User | null;
@@ -19,6 +20,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
 }) => {
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
+  const bankModal = useBankAccountModal();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleOpen = useCallback(() => {
@@ -63,7 +65,10 @@ const UserMenu: React.FC<UserMenuProps> = ({
                 <MenuItem onClick={() => {}} label="My Cart" />
                 <MenuItem onClick={() => {}} label="My fevourits" />
                 {bankInformation === null && (
-                  <MenuItem onClick={() => {}} label="Create Bank Acc." />
+                  <MenuItem
+                    onClick={bankModal.onOpen}
+                    label="Create Bank Acc."
+                  />
                 )}
                 <MenuItem onClick={() => {}} label="My Order" />
                 <hr />
