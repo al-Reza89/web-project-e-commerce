@@ -10,107 +10,90 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-  id              String @id @default(auto()) @map("_id") @db.ObjectId
-  name            String?
-  email           String?   @unique
-  emailVerified   DateTime?
-  image           String?
-  hashedPassword  String?
-  role  Role   @default(USER)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  favoriteIds     String[] @db.ObjectId
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  name           String?
+  email          String?   @unique
+  emailVerified  DateTime?
+  image          String?
+  hashedPassword String?
+  role           Role      @default(USER)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  favoriteIds    String[]  @db.ObjectId
 
-  banks Bank[]
-  accounts Account[]
+  banks         Bank?
+  accounts      Account[]
   approveMoneys ApproveMoney[]
-  products Products[]
-  sellProduct SellProducts[]
-
+  products      Products[]
+  sellProduct   SellProducts[]
 }
 
-
 model Account {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  userId             String   @db.ObjectId
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.String
-  access_token       String?  @db.String
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.String
-  session_state      String?
-
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
 
-
 model Bank {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId
-  secret String
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  secret       String
   createStatus Boolean @default(false)
-  currentMoney Int
-  userId     String   @db.ObjectId
+  currentMoney Int     @default(5000)
+  userId       String  @unique @db.ObjectId
 
-
-  user    User     @relation(fields: [userId], references: [id],onDelete:Cascade)
-
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   banks ApproveMoney[]
-
 }
-
 
 model ApproveMoney {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String @db.ObjectId
-  bankId String @db.ObjectId
-  ammount Int
-  status MoneyStatus @default(PENDING)
+  id      String      @id @default(auto()) @map("_id") @db.ObjectId
+  userId  String      @db.ObjectId
+  bankId  String      @db.ObjectId
+  ammount Int         @default(0)
+  status  MoneyStatus @default(PENDING)
 
-  user User @relation(fields: [userId],references: [id],onDelete:Cascade)
-  bank Bank @relation(fields: [bankId],references: [id],onDelete:Cascade)
-
-
-
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bank Bank @relation(fields: [bankId], references: [id], onDelete: Cascade)
 }
 
-model Products{
-   id     String @id @default(auto()) @map("_id") @db.ObjectId
-   userId String @db.ObjectId
-   details String
-   ImageUrl String
-   price Int
-   stock Int
+model Products {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  userId   String @db.ObjectId
+  details  String
+  ImageUrl String
+  price    Int
+  stock    Int
 
-  user User @relation(fields: [userId],references: [id],onDelete:Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   sellProducts SellProducts[]
-
 }
 
+model SellProducts {
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  productId    String @db.ObjectId
+  userId       String @db.ObjectId
+  productCount Int
+  price        Int
 
-model SellProducts{
-     id     String @id @default(auto()) @map("_id") @db.ObjectId
-    productId String @db.ObjectId
-    userId String @db.ObjectId
-    productCount Int
-    price Int
-
-  user User @relation(fields: [userId],references: [id],onDelete:Cascade)
-  product Products @relation(fields: [productId],references: [id],onDelete:Cascade)
-
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Products @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
-
-
 
 enum MoneyStatus {
   PENDING
@@ -118,12 +101,8 @@ enum MoneyStatus {
   APPROVE
 }
 
-
 enum Role {
   USER
   ADMIN
   BANK
 }
-
-
-

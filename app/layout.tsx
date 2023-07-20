@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 import ToasterProvider from "./providers/ToasterProvider";
 import LoginModal from "./components/modals/LoginModal";
 import getCurrentUser from "./actions/getCurrentUser";
+import getBankInformation from "./actions/getBankInformation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,11 +20,12 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // it is server component so ekhane data fetch korte pari
-
   const currentUser = await getCurrentUser();
-  // ekhane eivabe o likhte partam
-  //  const currentUser=await prisma?.user.find().... but scalabel korar jonno eivabe lekha
+  // console.log({ currentUser: currentUser });
+
+  const userId: string | undefined = currentUser?.id;
+
+  const bankInformation = await getBankInformation(userId);
 
   return (
     <html lang="en">
@@ -31,7 +33,7 @@ export default async function RootLayout({
         <ToasterProvider />
         <LoginModal />
         <RegisterModal />
-        <Navbar currentUser={currentUser} />
+        <Navbar currentUser={currentUser} bankInformation={bankInformation} />
         {children}
       </body>
     </html>

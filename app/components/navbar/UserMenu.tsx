@@ -5,14 +5,18 @@ import Avatar from "../Avatar";
 import MenuItem from "./MenuItem";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useLoginModal from "@/app/hooks/useLoginModal";
-import { User } from "@prisma/client";
+import { Bank, User } from "@prisma/client";
 import { signOut } from "next-auth/react";
 
 interface UserMenuProps {
   currentUser?: User | null;
+  bankInformation?: Bank | null;
 }
 
-const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
+const UserMenu: React.FC<UserMenuProps> = ({
+  currentUser,
+  bankInformation,
+}) => {
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
   const [isOpen, setIsOpen] = useState(false);
@@ -21,14 +25,25 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
     setIsOpen((value) => !value);
   }, []);
 
+  console.log(bankInformation);
+
   return (
     <div className="relative">
       <div className="flex flex-row items-center gap-3">
+        {currentUser && (
+          <div>
+            {bankInformation?.createStatus ? (
+              <div>${bankInformation?.currentMoney}</div>
+            ) : (
+              <div>$ 0</div>
+            )}
+          </div>
+        )}
         <div
           onClick={() => {}}
           className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer "
         >
-          Home to Mecha Keyboard
+          {currentUser?.name}
         </div>
         <div
           onClick={toggleOpen}
@@ -47,7 +62,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
               <>
                 <MenuItem onClick={() => {}} label="My Cart" />
                 <MenuItem onClick={() => {}} label="My fevourits" />
-                <MenuItem onClick={() => {}} label="Bank Account" />
+                {bankInformation === null && (
+                  <MenuItem onClick={() => {}} label="Create Bank Acc." />
+                )}
                 <MenuItem onClick={() => {}} label="My Order" />
                 <hr />
                 <MenuItem onClick={() => signOut()} label="Logout" />

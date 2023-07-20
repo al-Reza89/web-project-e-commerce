@@ -4,13 +4,15 @@ import Container from "../Container";
 import Logo from "./Logo";
 import Search from "./Search";
 import UserMenu from "./UserMenu";
-import { User } from "@prisma/client";
+import { Bank, User } from "@prisma/client";
+import getBankInformation from "@/app/actions/getBankInformation";
 
 interface NavbarProps {
   currentUser?: User | null;
+  bankInformation?: Bank | null;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
+const Navbar: React.FC<NavbarProps> = ({ currentUser, bankInformation }) => {
   // console.log({ currentUser });
 
   return (
@@ -20,7 +22,10 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
           <div className="flex flex-row items-center justify-between gap-3 md:gap-0">
             <Logo />
             <Search />
-            <UserMenu currentUser={currentUser} />
+            <UserMenu
+              currentUser={currentUser}
+              bankInformation={bankInformation}
+            />
           </div>
         </Container>
       </div>
