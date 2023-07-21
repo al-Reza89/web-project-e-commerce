@@ -69,13 +69,13 @@ const BankAccountModal: React.FC<BankAccoutModalProps> = ({}) => {
 
   return (
     <Modal
-      disabled={isLoading}
       isOpen={bankModal.isOpen}
       onClose={bankModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
-      actionLebel="create bank secret"
       title="bank account"
       body={bodyContent}
+      actionLebel="create bank secret"
+      disabled={isLoading}
     />
   );
 };

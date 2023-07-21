@@ -74,8 +74,9 @@ model ApproveMoney {
 model Products {
   id       String @id @default(auto()) @map("_id") @db.ObjectId
   userId   String @db.ObjectId
+  title    String
   details  String
-  ImageUrl String
+  imageSrc String
   price    Int
   stock    Int
 
