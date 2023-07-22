@@ -1,9 +1,18 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
+import { Product, User } from "@prisma/client";
 import Image from "next/image";
 import React from "react";
 
-const ProductCard = () => {
+interface ProductCardProps {
+  product: Product;
+  currentUser: User | null;
+}
+
+const ProductCard: React.FC<ProductCardProps> = ({ product, currentUser }) => {
+  console.log(product);
+  console.log(currentUser);
+
   return (
     <div className="transition ease-in-out duration-300   hover:scale-110 ">
       <div className="relative  flex flex-col items-center justify-center ">
@@ -32,7 +41,7 @@ const ProductCard = () => {
                   </div>
                   <div className="overflow-hidden rounded ">
                     <img
-                      src="/mecha1.jpg"
+                      src={product.imageSrc}
                       alt="Just a flower"
                       className=" w-full   object-fill  rounded  hover:scale-125 transition duration-500 cursor-pointer "
                     />
@@ -55,17 +64,16 @@ const ProductCard = () => {
                       <span className="mr-2 text-gray-400">Bangladesh</span>
                     </div>
                     <div className="flex items-center w-full justify-between min-w-0 ">
-                      <h2 className="text-lg mr-auto cursor-pointer text-gray-200 hover:text-purple-500 truncate ">
-                        Lorem ipsum is placeholder text commonly used in the
-                        graphic
+                      <h2 className="text-lg mr-auto cursor-pointer text-gray-200 hover:text-purple-500  ">
+                        {product.title}
                       </h2>
                       <div className="flex items-center bg-green-700 text-white text-xs px-2 py-1 ml-3 rounded-lg">
-                        INSTOCK
+                        INSTOCK {product.stock}
                       </div>
                     </div>
                   </div>
                   <div className="text-xl text-white font-semibold mt-1">
-                    $240.00
+                    ${product.price}
                   </div>
                   <div className="lg:flex  py-4  text-sm text-gray-600">
                     <div className="flex-1 inline-flex items-center  mb-3">
