@@ -9,6 +9,7 @@ import { Bank, User } from "@prisma/client";
 import { signOut } from "next-auth/react";
 import useBankAccountModal from "@/app/hooks/useBankAccountModal";
 import useAddProductModal from "@/app/hooks/useAddProductModal";
+import { BsCartPlus } from "react-icons/bs";
 
 interface UserMenuProps {
   currentUser?: User | null;
@@ -36,15 +37,27 @@ const UserMenu: React.FC<UserMenuProps> = ({
         {currentUser && (
           <div>
             {bankInformation?.createStatus ? (
-              <div>${bankInformation?.currentMoney}</div>
+              <div className="text-xl font-bold">
+                ${bankInformation?.currentMoney}
+              </div>
             ) : (
               <div>$ 0</div>
             )}
           </div>
         )}
+        <div className="relative">
+          <BsCartPlus
+            size={40}
+            fill="black"
+            className="hover:fill-blue-900 hover:scale-110 transition ease-in-out delay-150 cursor-pointer "
+          />
+          <div className="absolute -top-3 right-1 text-white font-bold px-2 bg-red-600 rounded-full ">
+            3
+          </div>
+        </div>
         <div
           onClick={() => {}}
-          className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer "
+          className="hidden font-bold text-xl md:block  py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer "
         >
           {currentUser?.name}
         </div>
