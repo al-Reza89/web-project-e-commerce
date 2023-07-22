@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
 import { RxDotFilled } from "react-icons/rx";
 
@@ -16,7 +16,6 @@ const CarouselHome = () => {
     {
       url: "mecha3.jpg",
     },
-
     {
       url: "mecha4.jpg",
     },
@@ -26,6 +25,18 @@ const CarouselHome = () => {
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const isLastSlide = currentIndex === slides.length - 1;
+      const newIndex = isLastSlide ? 0 : currentIndex + 1;
+      setCurrentIndex(newIndex);
+    }, 3000); // 30 seconds (30,000 milliseconds)
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [currentIndex, slides.length]);
 
   const prevSlide = () => {
     const isFirstSlide = currentIndex === 0;
