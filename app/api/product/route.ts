@@ -13,7 +13,7 @@ export async function POST(request: Request) {
   const { title, details, imageSrc, price, stock } = body;
 
   try {
-    const ProductResponse = await prisma?.products.create({
+    const ProductResponse = await prisma?.product.create({
       data: {
         userId: currentUser.id,
         title: title,

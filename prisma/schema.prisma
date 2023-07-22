@@ -25,8 +25,8 @@ model User {
   banks         Bank?
   accounts      Account[]
   approveMoneys ApproveMoney[]
-  products      Products[]
-  sellProduct   SellProducts[]
+  products      Product[]
+  carts         Cart[]
 }
 
 model Account {
@@ -46,6 +46,21 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+}
+
+model Product {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  title     String
+  details   String
+  imageSrc  String
+  price     Int
+  stock     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cartItems CartItem[]
 }
 
 model Bank {
@@ -71,29 +86,26 @@ model ApproveMoney {
   bank Bank @relation(fields: [bankId], references: [id], onDelete: Cascade)
 }
 
-model Products {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  userId   String @db.ObjectId
-  title    String
-  details  String
-  imageSrc String
-  price    Int
-  stock    Int
+model Cart {
+  id         String     @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String     @db.ObjectId
+  items      CartItem[]
+  totalPrice Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  sellProducts SellProducts[]
 }
 
-model SellProducts {
-  id           String @id @default(auto()) @map("_id") @db.ObjectId
-  productId    String @db.ObjectId
-  userId       String @db.ObjectId
-  productCount Int
-  price        Int
+model CartItem {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  productId String @db.ObjectId
+  cartId    String @db.ObjectId
+  quantity  Int
 
-  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  product Products @relation(fields: [productId], references: [id], onDelete: Cascade)
+  cart    Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
 enum MoneyStatus {
