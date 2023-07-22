@@ -1,5 +1,6 @@
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import { NextResponse } from "next/server";
+import prisma from "@/app/libs/prismadb";
 
 export async function POST(request: Request) {
   const currentUser = await getCurrentUser();
@@ -23,6 +24,8 @@ export async function POST(request: Request) {
         stock: stock,
       },
     });
+
+    console.log("ProductResponse");
 
     return NextResponse.json(ProductResponse);
   } catch (error) {

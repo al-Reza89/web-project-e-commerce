@@ -30,7 +30,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({}) => {
       title: "",
       details: "",
       imageSrc: "",
-      price: 1000,
+      price: 1,
       stock: 1,
     },
   });
