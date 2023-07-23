@@ -10,6 +10,7 @@ import { signOut } from "next-auth/react";
 import useBankAccountModal from "@/app/hooks/useBankAccountModal";
 import useAddProductModal from "@/app/hooks/useAddProductModal";
 import { BsCartPlus } from "react-icons/bs";
+import CartProducts from "@/app/store/CartProducts";
 
 interface UserMenuProps {
   currentUser?: User | null;
@@ -24,6 +25,8 @@ const UserMenu: React.FC<UserMenuProps> = ({
   const loginModal = useLoginModal();
   const bankModal = useBankAccountModal();
   const productModal = useAddProductModal();
+
+  const { products: cartProducts } = CartProducts();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -52,7 +55,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
             className="hover:fill-blue-900 hover:scale-110 transition ease-in-out delay-150 cursor-pointer "
           />
           <div className="absolute -top-3 right-1 text-white font-bold px-2 bg-red-600 rounded-full ">
-            3
+            {cartProducts.length}
           </div>
         </div>
         <div

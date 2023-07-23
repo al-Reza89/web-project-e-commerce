@@ -18,7 +18,9 @@ const addProduct = (
 
   if (res) {
     prevProducts.map((product) => {
-      product.stock = product.stock + 1;
+      if (product.id === newProduct.id) {
+        product.stock = product.stock + 1;
+      }
     });
   } else {
     prevProducts = [...prevProducts, newProduct];

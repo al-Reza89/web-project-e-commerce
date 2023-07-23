@@ -1,22 +1,33 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import CartProducts from "@/app/store/Cart";
+import CartProducts from "@/app/store/CartProducts";
 import { Product, User } from "@prisma/client";
 import Image from "next/image";
 import React from "react";
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 
 interface ProductCardProps {
   product: Product;
   currentUser: User | null;
+  stock: number;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product, currentUser }) => {
+const ProductCard: React.FC<ProductCardProps> = ({
+  product,
+  currentUser,
+  stock,
+}) => {
   const cartProduct = CartProducts();
 
-  const { addProduct, products, removeProduct, deleteProduct, clearProduct } =
-    cartProduct;
+  const {
+    addProduct,
+    products: selectedProducts,
+    removeProduct,
+    deleteProduct,
+    clearProduct,
+  } = cartProduct;
 
-  console.log({ products: products });
+  console.log(selectedProducts);
 
   return (
     <div className="transition ease-in-out duration-300   hover:scale-110 ">
@@ -73,7 +84,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, currentUser }) => {
                         {product.title}
                       </h2>
                       <div className="flex items-center bg-green-700 text-white text-xs px-2 py-1 ml-3 rounded-lg">
-                        INSTOCK {product.stock}
+                        INSTOCK {stock}
                       </div>
                     </div>
                   </div>
@@ -121,7 +132,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, currentUser }) => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex space-x-2 text-sm font-medium justify-start">
+                  <div className="flex space-x-2 text-sm font-medium justify-start items-center">
                     <button
                       onClick={() => addProduct(product)}
                       className="transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-indigo-700 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-indigo-900 "
@@ -150,6 +161,38 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, currentUser }) => {
                         />
                       </svg>
                     </button>
+                    <AiOutlineMinus
+                      onClick={() => removeProduct(product)}
+                      className="text-white cursor-pointer text-sm font-bold "
+                    />
+                    <div className="text-white text-xl p-1 ">
+                      {/* {selectedProducts.length === 0 ? (
+                        <>0</>
+                      ) : (
+                        <>
+                          {selectedProducts.map((selectedProdect) => {
+                            if (selectedProdect.id === product.id) {
+                              return selectedProdect.stock;
+                            } else {
+                              return 0;
+                            }
+                          })}
+                        </>
+                      )} */}
+
+                      {selectedProducts.map((selectedProdect) => {
+                        if (selectedProdect.id === product.id) {
+                          const value = selectedProdect.stock;
+
+                          if (!value) return 0;
+                          else return value;
+                        }
+                      })}
+                    </div>
+                    <AiOutlinePlus
+                      onClick={() => addProduct(product)}
+                      className="text-white cursor-pointer text-sm "
+                    />
                   </div>
                 </div>
               </div>

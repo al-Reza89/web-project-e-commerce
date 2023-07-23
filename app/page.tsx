@@ -30,6 +30,7 @@ export default async function Home() {
                 <ProductCard
                   key={product.id}
                   product={product}
+                  stock={product.stock}
                   currentUser={currentUser}
                 />
               );
