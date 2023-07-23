@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
+import CartProducts from "@/app/store/Cart";
 import { Product, User } from "@prisma/client";
 import Image from "next/image";
 import React from "react";
@@ -10,8 +11,12 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, currentUser }) => {
-  console.log(product);
-  console.log(currentUser);
+  const cartProduct = CartProducts();
+
+  const { addProduct, products, removeProduct, deleteProduct, clearProduct } =
+    cartProduct;
+
+  console.log({ products: products });
 
   return (
     <div className="transition ease-in-out duration-300   hover:scale-110 ">
@@ -117,7 +122,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, currentUser }) => {
                     </div>
                   </div>
                   <div className="flex space-x-2 text-sm font-medium justify-start">
-                    <button className="transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-indigo-700 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-indigo-900 ">
+                    <button
+                      onClick={() => addProduct(product)}
+                      className="transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-indigo-700 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-indigo-900 "
+                    >
                       <span>Add Cart</span>
                     </button>
                     <button className="transition ease-in duration-300 bg-gray-700 hover:bg-gray-800 border hover:border-gray-500 border-gray-900 hover:text-white  hover:shadow-lg text-gray-400 rounded-full w-9 h-9 text-center p-2">
