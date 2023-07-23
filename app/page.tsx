@@ -6,6 +6,7 @@ import getAllProducts from "./actions/getAllProduct";
 import EmptyState from "./components/EmptyState";
 import { Product } from "@prisma/client";
 import getCurrentUser from "./actions/getCurrentUser";
+import CartProducts from "./store/CartProducts";
 
 export default async function Home() {
   const currentUser = await getCurrentUser();

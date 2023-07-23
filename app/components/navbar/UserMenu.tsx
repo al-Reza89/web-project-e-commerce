@@ -11,6 +11,7 @@ import useBankAccountModal from "@/app/hooks/useBankAccountModal";
 import useAddProductModal from "@/app/hooks/useAddProductModal";
 import { BsCartPlus } from "react-icons/bs";
 import CartProducts from "@/app/store/CartProducts";
+import { useRouter } from "next/navigation";
 
 interface UserMenuProps {
   currentUser?: User | null;
@@ -25,6 +26,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
   const loginModal = useLoginModal();
   const bankModal = useBankAccountModal();
   const productModal = useAddProductModal();
+  const router = useRouter();
 
   const { products: cartProducts } = CartProducts();
 
@@ -48,7 +50,10 @@ const UserMenu: React.FC<UserMenuProps> = ({
             )}
           </div>
         )}
-        <div className="relative">
+        <div
+          className="relative cursor-pointer "
+          onClick={() => router.push("/checkout")}
+        >
           <BsCartPlus
             size={40}
             fill="black"
