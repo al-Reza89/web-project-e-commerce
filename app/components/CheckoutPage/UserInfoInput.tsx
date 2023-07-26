@@ -42,6 +42,7 @@ const UserInfoInput: React.FC<UserInfoInputProps> = ({
               id="grid-first-name"
               type="text"
               value={firstName}
+              required
               onChange={(e) => updateFields({ firstName: e.target.value })}
               placeholder="Jane"
             />
@@ -61,6 +62,7 @@ const UserInfoInput: React.FC<UserInfoInputProps> = ({
               id="grid-last-name"
               type="text"
               placeholder="Doe"
+              required
               value={lastName}
               onChange={(e) => updateFields({ lastName: e.target.value })}
             />
@@ -80,6 +82,7 @@ const UserInfoInput: React.FC<UserInfoInputProps> = ({
               type="text"
               placeholder="12 baker street"
               value={street}
+              required
               onChange={(e) => updateFields({ street: e.target.value })}
             />
             <p className="text-gray-600 text-xs italic">
@@ -101,6 +104,7 @@ const UserInfoInput: React.FC<UserInfoInputProps> = ({
               type="text"
               placeholder="Albuquerque"
               value={city}
+              required
               onChange={(e) => updateFields({ city: e.target.value })}
             />
           </div>
@@ -117,6 +121,7 @@ const UserInfoInput: React.FC<UserInfoInputProps> = ({
               type="text"
               placeholder="90210"
               value={zip}
+              required
               onChange={(e) => updateFields({ zip: e.target.value })}
             />
           </div>
@@ -132,6 +137,7 @@ const UserInfoInput: React.FC<UserInfoInputProps> = ({
               id="grid-zip"
               type="text"
               value={mobile}
+              required
               onChange={(e) => updateFields({ mobile: e.target.value })}
               placeholder="012.."
             />

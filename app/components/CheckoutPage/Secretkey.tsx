@@ -31,6 +31,7 @@ const SecretKey: React.FC<SecretKeyProps> = ({ updateFields, data, back }) => {
             id="password"
             type="password"
             value={secretKey}
+            required
             onChange={(e) => updateFields({ secretKey: e.target.value })}
             placeholder="******************"
           />
