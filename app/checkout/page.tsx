@@ -1,7 +1,12 @@
 import React from "react";
+import Container from "../components/Container";
 
-const page = () => {
-  return <div>page</div>;
+const Checkout = () => {
+  return (
+    <Container>
+      <div className="pt-24  ">checkout</div>
+    </Container>
+  );
 };
 
-export default page;
+export default Checkout;
