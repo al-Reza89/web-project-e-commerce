@@ -2,6 +2,9 @@
 
 import { useMultiStepForm } from "@/app/hooks/useMultiStepForm";
 import React, { FormEvent, useState } from "react";
+import CartDetails from "./CartDetails";
+import UserInfoInput from "./UserInfoInput";
+import SecretKey from "./Secretkey";
 
 interface ParentFormProps {}
 
@@ -12,6 +15,7 @@ type FormData = {
   city: string;
   zip: string;
   mobile: string;
+  secretKey: string;
 };
 
 const INITIAL_DATA: FormData = {
@@ -21,6 +25,7 @@ const INITIAL_DATA: FormData = {
   city: "",
   zip: "",
   mobile: "",
+  secretKey: "",
 };
 
 const ParentForm: React.FC<ParentFormProps> = ({}) => {
@@ -34,14 +39,46 @@ const ParentForm: React.FC<ParentFormProps> = ({}) => {
     });
   }
 
+  function next() {
+    setCurrentStepIndex((i) => {
+      if (i >= steps.length - 1) return 1;
+      return i + 1;
+    });
+  }
+
+  function back() {
+    setCurrentStepIndex((i) => {
+      if (i <= 0) return 1;
+
+      return i - 1;
+    });
+  }
+
   //   multiplestep form array of react element expect kore amra surute dite pari ba pore o dite pari
   // and destructure the function from them and use it later
   // stpes hoilo sob react elements and step hoilo current stup ta
-  const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next } =
-    useMultiStepForm([
-      <div key="first">one</div>,
-      <div key="second">second</div>,
-    ]);
+  const {
+    steps,
+    currentStepIndex,
+    step,
+    isFirstStep,
+    isLastStep,
+    setCurrentStepIndex,
+  } = useMultiStepForm([
+    <CartDetails key="first" data={data} updateFields={updateFields} />,
+    <UserInfoInput
+      key="second"
+      data={data}
+      updateFields={updateFields}
+      back={back}
+    />,
+    <SecretKey
+      key="third"
+      data={data}
+      updateFields={updateFields}
+      back={back}
+    />,
+  ]);
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     // eita na korle barbar form submit hoite thake like button er type na dileo ei kaj ta hoy
@@ -58,14 +95,6 @@ const ParentForm: React.FC<ParentFormProps> = ({}) => {
           {currentStepIndex + 1}/{steps.length}
         </div>
         <div>{step}</div>
-        <div>
-          {isFirstStep && (
-            <button type="button" onClick={back}>
-              backForm
-            </button>
-          )}
-          <button type="submit">{isLastStep ? "Finish" : "NextForm"}</button>
-        </div>
       </form>
     </div>
   );
