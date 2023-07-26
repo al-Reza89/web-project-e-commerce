@@ -5,6 +5,8 @@ import React, { FormEvent, useState } from "react";
 import CartDetails from "./CartDetails";
 import UserInfoInput from "./UserInfoInput";
 import SecretKey from "./Secretkey";
+import CartProducts from "@/app/store/CartProducts";
+import EmptyState from "../EmptyState";
 
 interface ParentFormProps {}
 
@@ -30,6 +32,7 @@ const INITIAL_DATA: FormData = {
 
 const ParentForm: React.FC<ParentFormProps> = ({}) => {
   const [data, setData] = useState(INITIAL_DATA);
+  const { products: cartProduct } = CartProducts();
 
   //   update the data or say store the data in state
   // partials means formdata er kisu thakteo pare na o pare
@@ -90,12 +93,16 @@ const ParentForm: React.FC<ParentFormProps> = ({}) => {
 
   return (
     <div>
-      <form onSubmit={onSubmit}>
-        <div>
-          {currentStepIndex + 1}/{steps.length}
-        </div>
-        <div>{step}</div>
-      </form>
+      {cartProduct.length === 0 ? (
+        <EmptyState title="sorry" subtitle="Added product to your cart" />
+      ) : (
+        <form onSubmit={onSubmit}>
+          <div>
+            {currentStepIndex + 1}/{steps.length}
+          </div>
+          <div>{step}</div>
+        </form>
+      )}
     </div>
   );
 };
