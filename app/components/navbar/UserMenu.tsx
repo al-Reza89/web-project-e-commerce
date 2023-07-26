@@ -36,6 +36,10 @@ const UserMenu: React.FC<UserMenuProps> = ({
     setIsOpen((value) => !value);
   }, []);
 
+  const handleCartButton = useCallback(() => {
+    router.push("/checkout");
+  }, [router]);
+
   return (
     <div className="relative">
       <div className="flex flex-row items-center gap-3">
@@ -50,10 +54,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
             )}
           </div>
         )}
-        <div
-          className="relative cursor-pointer "
-          onClick={() => router.push("/checkout")}
-        >
+        <div className="relative cursor-pointer " onClick={handleCartButton}>
           <BsCartPlus
             size={40}
             fill="black"

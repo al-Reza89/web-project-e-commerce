@@ -3,7 +3,7 @@
 import CartProducts from "@/app/store/CartProducts";
 import { Product, User } from "@prisma/client";
 import Image from "next/image";
-import React from "react";
+import React, { useCallback } from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 
 interface ProductCardProps {
@@ -26,6 +26,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
     deleteProduct,
     clearProduct,
   } = cartProduct;
+
+  const addProductButton = useCallback(() => {
+    addProduct(product);
+  }, [product, addProduct]);
 
   console.log(selectedProducts);
 
@@ -134,7 +138,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   </div>
                   <div className="flex space-x-2 text-sm font-medium justify-start items-center">
                     <button
-                      onClick={() => addProduct(product)}
+                      onClick={addProductButton}
                       className="transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-indigo-700 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-indigo-900 "
                     >
                       <span>Add Cart</span>
