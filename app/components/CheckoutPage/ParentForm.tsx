@@ -9,6 +9,10 @@ import CartProducts from "@/app/store/CartProducts";
 import EmptyState from "../EmptyState";
 import { Bank } from "@prisma/client";
 import { toast } from "react-hot-toast";
+import axios from "axios";
+import getCurrentUser from "@/app/actions/getCurrentUser";
+import useLoginModal from "@/app/hooks/useLoginModal";
+import { useRouter } from "next/navigation";
 
 interface ParentFormProps {
   userId: string | undefined;
@@ -36,8 +40,12 @@ const INITIAL_DATA: FormData = {
 };
 
 const ParentForm: React.FC<ParentFormProps> = ({ userId, bankInformation }) => {
+  const { products: cartProducts, clearProduct } = CartProducts();
+  const loginModal = useLoginModal();
+  const router = useRouter();
+
+  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState(INITIAL_DATA);
-  const { products: cartProducts } = CartProducts();
 
   const totalPrice = cartProducts.reduce((accumulator, cartProduct) => {
     return accumulator + cartProduct.stock * cartProduct.price;
@@ -89,11 +97,18 @@ const ParentForm: React.FC<ParentFormProps> = ({ userId, bankInformation }) => {
       data={data}
       updateFields={updateFields}
       back={back}
+      isLoading={isLoading}
     />,
   ]);
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    if (!userId) {
+      toast.error("please login first");
+      loginModal.onOpen();
+      return null;
+    }
 
     if (bankInformation === null) {
       toast.error("First Create Your Bank");
@@ -106,10 +121,40 @@ const ParentForm: React.FC<ParentFormProps> = ({ userId, bankInformation }) => {
         return null;
       }
     }
-
     if (!isLastStep) return next();
 
-    console.log(data);
+    if (bankInformation.secret !== data.secretKey) {
+      toast.error("invalid secret key");
+      return null;
+    }
+
+    console.log({ data: data });
+    console.log({ cartProducts: cartProducts });
+
+    setIsLoading(true);
+
+    const mergeData = {
+      data: data,
+      cartProducts: cartProducts,
+      totalPrice: totalPrice,
+    };
+
+    axios
+      .post("/api/cart", mergeData)
+      .then((response) => {
+        toast.success("place your order");
+        router.refresh();
+        clearProduct();
+        setData(INITIAL_DATA);
+        router.push(`/checkout/${response.data.id}`);
+      })
+      .catch((error) => {
+        console.log({ error: error });
+        toast.error("try again later");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }
 
   return (

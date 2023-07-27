@@ -11,9 +11,15 @@ interface SecretKeyProps {
   data: UserData;
   updateFields: (newData: Partial<UserData>) => void;
   back: () => void;
+  isLoading: boolean;
 }
 
-const SecretKey: React.FC<SecretKeyProps> = ({ updateFields, data, back }) => {
+const SecretKey: React.FC<SecretKeyProps> = ({
+  updateFields,
+  data,
+  back,
+  isLoading,
+}) => {
   const { secretKey } = data;
 
   return (
@@ -54,7 +60,10 @@ const SecretKey: React.FC<SecretKeyProps> = ({ updateFields, data, back }) => {
           >
             back
           </button>
-          <button className="bg-green-500 w-full p-1 text-lg font-semibold">
+          <button
+            disabled={isLoading}
+            className="bg-green-500 w-full p-1 text-lg font-semibold"
+          >
             Submit
           </button>
         </div>

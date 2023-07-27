@@ -91,6 +91,11 @@ model Cart {
   userId     String     @db.ObjectId
   items      CartItem[]
   totalPrice Int
+  firstName  String
+  lastName   String
+  street     String
+  zip        String
+  mobile     String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
