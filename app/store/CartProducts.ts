@@ -74,6 +74,12 @@ const clearProduct = (prevProducts: Product[]): Product[] => {
   return [];
 };
 
+const totalPrice = (cartProducts: Product[]): number => {
+  return cartProducts.reduce((accumulator, cartProduct) => {
+    return accumulator + cartProduct.stock * cartProduct.price;
+  }, 0);
+};
+
 const CartProducts = create<AddProductCart>((set) => ({
   products: [],
   addProduct: (product) =>

@@ -9,9 +9,14 @@ type UserData = {};
 interface CartDetailsProps {
   data: UserData;
   updateFields: (newData: Partial<UserData>) => void;
+  totalPrice: number;
 }
 
-const CartDetails: React.FC<CartDetailsProps> = ({ updateFields, data }) => {
+const CartDetails: React.FC<CartDetailsProps> = ({
+  updateFields,
+  data,
+  totalPrice,
+}) => {
   const {
     addProduct,
     clearProduct,
@@ -19,10 +24,6 @@ const CartDetails: React.FC<CartDetailsProps> = ({ updateFields, data }) => {
     products: cartProducts,
     removeProduct,
   } = CartProducts();
-
-  const totalPrice = cartProducts.reduce((accumulator, cartProduct) => {
-    return accumulator + cartProduct.stock * cartProduct.price;
-  }, 0);
 
   return (
     <div className="bg-gray-100 max-w-4xl mx-auto shadow-2xl ">
@@ -71,7 +72,7 @@ const CartDetails: React.FC<CartDetailsProps> = ({ updateFields, data }) => {
                   </div>
                   <div className="flex justify-center w-1/5">
                     <svg
-                      className="fill-current text-gray-600 w-3"
+                      className="fill-current text-gray-600 w-3 cursor-pointer"
                       viewBox="0 0 448 512"
                       onClick={() => removeProduct(cartProduct)}
                     >
@@ -79,14 +80,15 @@ const CartDetails: React.FC<CartDetailsProps> = ({ updateFields, data }) => {
                     </svg>
 
                     <input
-                      className="mx-2 border text-center w-8"
+                      className="mx-2 border text-center w-8 "
                       type="text"
+                      readOnly
                       value={cartProduct.stock}
                     />
 
                     <svg
                       onClick={() => addProduct(cartProduct)}
-                      className="fill-current text-gray-600 w-3"
+                      className="fill-current text-gray-600 w-3 cursor-pointer "
                       viewBox="0 0 448 512"
                     >
                       <path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
@@ -122,9 +124,11 @@ const CartDetails: React.FC<CartDetailsProps> = ({ updateFields, data }) => {
             </h1>
             <div className="flex justify-between mt-10 mb-5">
               <span className="font-semibold text-sm uppercase">
+                Cart Item:
+              </span>
+              <span className="font-semibold text-sm">
                 {cartProducts.length}
               </span>
-              <span className="font-semibold text-sm">590$</span>
             </div>
             <div>
               <label className="font-medium inline-block mb-3 text-sm uppercase">
