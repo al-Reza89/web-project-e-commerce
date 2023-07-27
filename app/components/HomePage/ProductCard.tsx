@@ -3,7 +3,7 @@
 import CartProducts from "@/app/store/CartProducts";
 import { Product, User } from "@prisma/client";
 import Image from "next/image";
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 
 interface ProductCardProps {
@@ -18,20 +18,31 @@ const ProductCard: React.FC<ProductCardProps> = ({
   stock,
 }) => {
   const cartProduct = CartProducts();
+  const [isAddDisable, setIsAddDisable] = useState(false);
 
-  const {
-    addProduct,
-    products: selectedProducts,
-    removeProduct,
-    deleteProduct,
-    clearProduct,
-  } = cartProduct;
+  const { addProduct, products: cartProducts, removeProduct } = cartProduct;
 
   const addProductButton = useCallback(() => {
     addProduct(product);
   }, [product, addProduct]);
 
-  console.log(selectedProducts);
+  const addProductFromCart = useCallback(() => {
+    const selectAmount = cartProducts
+      .filter((item) => item.id === product.id)
+      .map((item) => item.stock);
+
+    if (
+      selectAmount.length > 0 &&
+      selectAmount.every((amount) => amount >= stock)
+    ) {
+      setIsAddDisable(true);
+    } else {
+      setIsAddDisable(false);
+      addProduct(product);
+    }
+  }, [addProduct, cartProducts, product, stock]);
+
+  console.log(cartProducts);
 
   return (
     <div className="transition ease-in-out duration-300   hover:scale-110 ">
@@ -45,15 +56,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     <button className="transition ease-in duration-300 bg-gray-800  hover:text-purple-500 shadow hover:shadow-md text-gray-500 rounded-full w-8 h-8 text-center p-1">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6"
+                        className="h-6 w-6 text-red-400 "
                         fill="none"
                         viewBox="0 0 24 24"
-                        strokeWidth="currentColor"
+                        stroke="currentColor"
                       >
                         <path
-                          strokeWidth-linecap="round"
-                          strokeWidth-linejoin="round"
-                          strokeWidth-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
                           d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
                         />
                       </svg>
@@ -63,7 +74,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     <img
                       src={product.imageSrc}
                       alt="Just a flower"
-                      className=" w-full   object-fill  rounded  hover:scale-125 transition duration-500 cursor-pointer "
+                      className=" w-full max-h-[120px]  object-cover  rounded  hover:scale-125 transition duration-500 cursor-pointer "
                     />
                   </div>
                 </div>
@@ -149,18 +160,18 @@ const ProductCard: React.FC<ProductCardProps> = ({
                         className=""
                         fill="none"
                         viewBox="0 0 24 24"
-                        strokeWidth="currentColor"
+                        stroke="currentColor"
                       >
                         <path
-                          strokeWidth-linecap="round"
-                          strokeWidth-linejoin="round"
-                          strokeWidth-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
                           d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                         />
                         <path
-                          strokeWidth-linecap="round"
-                          strokeWidth-linejoin="round"
-                          strokeWidth-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
                           d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                         />
                       </svg>
@@ -170,11 +181,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
                       className="text-white cursor-pointer text-sm font-bold "
                     />
                     <div className="text-white text-xl p-1 ">
-                      {/* {selectedProducts.length === 0 ? (
+                      {/* {cartProducts.length === 0 ? (
                         <>0</>
                       ) : (
                         <>
-                          {selectedProducts.map((selectedProdect) => {
+                          {cartProducts.map((selectedProdect) => {
                             if (selectedProdect.id === product.id) {
                               return selectedProdect.stock;
                             } else {
@@ -184,7 +195,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                         </>
                       )} */}
 
-                      {selectedProducts.map((selectedProdect) => {
+                      {cartProducts.map((selectedProdect) => {
                         if (selectedProdect.id === product.id) {
                           const value = selectedProdect.stock;
 
@@ -194,8 +205,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
                       })}
                     </div>
                     <AiOutlinePlus
-                      onClick={() => addProduct(product)}
-                      className="text-white cursor-pointer text-sm "
+                      onClick={
+                        // addProductFromCart
+                        () => addProduct(product)
+                      }
+                      className={`text-white cursor-pointer text-sm ${
+                        isAddDisable ? "disabled" : ""
+                      }`}
                     />
                   </div>
                 </div>
