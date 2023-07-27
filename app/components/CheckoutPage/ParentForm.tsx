@@ -128,9 +128,6 @@ const ParentForm: React.FC<ParentFormProps> = ({ userId, bankInformation }) => {
       return null;
     }
 
-    console.log({ data: data });
-    console.log({ cartProducts: cartProducts });
-
     setIsLoading(true);
 
     const mergeData = {
@@ -144,9 +141,9 @@ const ParentForm: React.FC<ParentFormProps> = ({ userId, bankInformation }) => {
       .then((response) => {
         toast.success("place your order");
         router.refresh();
-        clearProduct();
         setData(INITIAL_DATA);
         router.push(`/checkout/${response.data.id}`);
+        clearProduct();
       })
       .catch((error) => {
         console.log({ error: error });

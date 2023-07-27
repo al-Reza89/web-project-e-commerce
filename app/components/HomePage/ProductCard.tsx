@@ -42,8 +42,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
     }
   }, [addProduct, cartProducts, product, stock]);
 
-  console.log(cartProducts);
-
   return (
     <div className="transition ease-in-out duration-300   hover:scale-110 ">
       <div className="relative  flex flex-col items-center justify-center ">
@@ -205,10 +203,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                       })}
                     </div>
                     <AiOutlinePlus
-                      onClick={
-                        // addProductFromCart
-                        () => addProduct(product)
-                      }
+                      onClick={addProductFromCart}
                       className={`text-white cursor-pointer text-sm ${
                         isAddDisable ? "disabled" : ""
                       }`}

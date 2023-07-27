@@ -16,6 +16,7 @@ export async function POST(request: Request) {
 
   const body = await request.json();
   const { data, cartProducts, totalPrice } = body;
+  const numericTotalPrice = parseFloat(totalPrice);
 
   const requestData = {
     userId: currentUser.id,
@@ -37,6 +38,25 @@ export async function POST(request: Request) {
     const cartResponse = await prisma?.cart.create({
       data: requestData,
     });
+
+    const bankResponse = await prisma.bank.findUnique({
+      where: {
+        userId: currentUser.id,
+      },
+    });
+
+    if (bankResponse != undefined) {
+      const currentMoney = bankResponse?.currentMoney - totalPrice;
+
+      await prisma.bank.update({
+        where: {
+          id: bankResponse.id,
+        },
+        data: {
+          currentMoney: currentMoney,
+        },
+      });
+    }
 
     return NextResponse.json(cartResponse);
   } catch (error) {
