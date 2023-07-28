@@ -2,39 +2,78 @@
 "use client";
 import EmptyState from "@/app/components/EmptyState";
 import { Cart, CartItem, Product, User } from "@prisma/client";
+import html2pdf from "html2pdf.js";
+
 import React from "react";
 
+interface ProductDetails {
+  id: string;
+  imageSrc: string;
+  title: string;
+  details: string;
+  price: number;
+}
+
 interface CartItems {
-  items: CartItem;
-  product: Product;
+  id: string;
+  quantity: number;
+  product: ProductDetails;
 }
 
 interface OrderIdDetails {
-  OrderIdDetails: Cart;
+  totalPrice: number;
+  street: string;
+  zip: string;
+  id: string;
+  createdAt: any;
   items: CartItems[];
 }
 
 interface OrderIdClientProps {
   orderIdDetails: OrderIdDetails | null;
   currentMoney: number | undefined;
-  currentUser: User | undefined;
+  image: string | undefined | null;
+  name: string | undefined | null;
+  email: string | undefined | null;
+  userId: string | undefined;
 }
 
 const OrderIdClient: React.FC<OrderIdClientProps> = ({
   orderIdDetails,
   currentMoney,
-  currentUser,
+  image,
+  name,
+  email,
+  userId,
 }) => {
-  if (orderIdDetails === null || currentUser === undefined) {
+  if (orderIdDetails === null || userId === undefined) {
     return (
       <EmptyState title="sorry " subtitle="No order details with this ID" />
     );
   }
   console.log(orderIdDetails);
-  console.log(currentUser);
+
+  const handleDownloadPdf = () => {
+    const element = document.getElementById("pdf-container"); // Replace "pdf-container" with the ID of the container that wraps the content you want to download as a PDF.
+
+    if (!element) {
+      console.error("Container not found.");
+      return;
+    }
+
+    const opt = {
+      margin: 0,
+      filename: "receipt.pdf",
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "mm", format: "a4", orientation: "landscape" },
+    };
+
+    html2pdf().set(opt).from(element).save();
+  };
 
   return (
-    <div className="pt-12 max-w-5xl 2xl:max-w-6xl mx-auto ">
+    <div id="pdf-container" className="pt-12 max-w-5xl 2xl:max-w-6xl mx-auto ">
       <div className="py-14 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
         <div className="flex justify-start item-start space-y-2 flex-col ">
           <h1 className="text-3xl lg:text-4xl font-semibold leading-7 lg:leading-9  text-gray-800">
@@ -113,7 +152,7 @@ const OrderIdClient: React.FC<OrderIdClientProps> = ({
                         STUDENT
                       </span>
                     </p>
-                    <p className="text-base leading-4 text-gray-600">
+                    <p className="text-base pl-24 leading-4 text-gray-600">
                       -$00.00 (0%)
                     </p>
                   </div>
@@ -175,10 +214,10 @@ const OrderIdClient: React.FC<OrderIdClientProps> = ({
             <div className="flex  flex-col md:flex-row xl:flex-col justify-start items-stretch h-full w-full md:space-x-6 lg:space-x-8 xl:space-x-0 ">
               <div className="flex flex-col justify-start items-start flex-shrink-0">
                 <div className="flex justify-center  w-full  md:justify-start items-center space-x-4 py-8 border-b border-gray-200">
-                  <img src={currentUser?.image ?? "/mecha1.jpg"} alt="avatar" />
+                  <img src={image ?? "/mecha1.jpg"} alt="avatar" />
                   <div className=" flex justify-start items-start flex-col space-y-2">
                     <p className="text-base font-semibold leading-4 text-left text-gray-800">
-                      {currentUser.name}
+                      {name}
                     </p>
                     <p className="text-sm leading-5 text-gray-600">
                       10 Previous Orders
@@ -208,7 +247,7 @@ const OrderIdClient: React.FC<OrderIdClientProps> = ({
                     />
                   </svg>
                   <p className="cursor-pointer text-sm leading-5 text-gray-800">
-                    {currentUser.email}
+                    {email}
                   </p>
                 </div>
               </div>
@@ -237,7 +276,10 @@ const OrderIdClient: React.FC<OrderIdClientProps> = ({
                   </div>
                 </div>
                 <div className="flex w-full mt-2 justify-center items-center md:justify-start md:items-start">
-                  <button className="mt-6 md:mt-0 py-5 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 font-medium w-96 2xl:w-full text-base leading-4 text-gray-800">
+                  <button
+                    onClick={handleDownloadPdf}
+                    className="mt-6 md:mt-0 py-5 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 font-medium w-96 2xl:w-full text-base leading-4 text-gray-800"
+                  >
                     Download Receive
                   </button>
                 </div>

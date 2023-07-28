@@ -7,16 +7,31 @@ export default async function getOrderIdDetails(params: string) {
       where: {
         id: params,
       },
-      include: {
+      select: {
+        totalPrice: true,
+        street: true,
+        zip: true,
+        id: true,
+        createdAt: true,
         items: {
-          include: {
-            product: true,
+          select: {
+            quantity: true,
+            id: true,
+            product: {
+              select: {
+                id: true,
+                imageSrc: true,
+                title: true,
+                details: true,
+                price: true,
+              },
+            },
           },
         },
       },
     });
 
-    // console.log(cartDetails);
+    console.log(cartDetails);
 
     return cartDetails;
   } catch (error: any) {

@@ -28,7 +28,10 @@ const OrderIdPage = async ({ params }: { params: IParams }) => {
   return (
     <OrderIdClient
       orderIdDetails={orderIdDetails}
-      currentUser={currentUser}
+      image={currentUser?.image}
+      name={currentUser?.name}
+      email={currentUser?.email}
+      userId={currentUser?.id}
       currentMoney={bankInformation?.currentMoney}
     />
   );
