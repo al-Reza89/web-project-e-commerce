@@ -23,6 +23,7 @@ const addProduct = (
       }
     });
   } else {
+    newProduct.stock = 1;
     prevProducts = [...prevProducts, newProduct];
   }
 
