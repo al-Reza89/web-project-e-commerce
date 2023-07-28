@@ -9,6 +9,7 @@ import getCurrentUser from "./actions/getCurrentUser";
 import getBankInformation from "./actions/getBankInformation";
 import BankAccountModal from "./components/modals/BankAccountModal";
 import AddProductModal from "./components/modals/AddProductModal";
+import ApplyMoneyModal from "./components/modals/ApplyMoneyModal";
 
 // const inter = Inter({ subsets: ["latin"] });
 
@@ -39,6 +40,11 @@ export default async function RootLayout({
         <RegisterModal />
         <BankAccountModal />
         <AddProductModal />
+        <ApplyMoneyModal
+          bankSecret={bankInformation?.secret}
+          userId={currentUser?.id}
+          bankId={bankInformation?.id}
+        />
         <Navbar currentUser={currentUser} bankInformation={bankInformation} />
         {children}
       </body>

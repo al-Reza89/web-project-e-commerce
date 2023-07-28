@@ -12,6 +12,7 @@ import useAddProductModal from "@/app/hooks/useAddProductModal";
 import { BsCartPlus } from "react-icons/bs";
 import CartProducts from "@/app/store/CartProducts";
 import { useRouter } from "next/navigation";
+import useApplyMoneyModal from "@/app/hooks/useApplyMoneyModal";
 
 interface UserMenuProps {
   currentUser?: User | null;
@@ -26,6 +27,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
   const loginModal = useLoginModal();
   const bankModal = useBankAccountModal();
   const productModal = useAddProductModal();
+  const applyMoneyModal = useApplyMoneyModal();
   const router = useRouter();
 
   const { products: cartProducts } = CartProducts();
@@ -85,7 +87,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
           <div className="flex flex-col cursor-pointer">
             {currentUser ? (
               <>
-                <MenuItem onClick={() => {}} label="My Cart" />
+                <MenuItem onClick={handleCartButton} label="My Cart" />
                 <MenuItem onClick={() => {}} label="My fevourits" />
                 {bankInformation === null && (
                   <MenuItem
@@ -94,6 +96,9 @@ const UserMenu: React.FC<UserMenuProps> = ({
                   />
                 )}
                 <MenuItem onClick={() => {}} label="My Order" />
+                {bankInformation?.createStatus && (
+                  <MenuItem onClick={applyMoneyModal.onOpen} label="Refund" />
+                )}
                 {currentUser.role === "ADMIN" && (
                   <div>
                     <hr />

@@ -76,11 +76,11 @@ model Bank {
 }
 
 model ApproveMoney {
-  id      String      @id @default(auto()) @map("_id") @db.ObjectId
-  userId  String      @db.ObjectId
-  bankId  String      @db.ObjectId
-  ammount Int         @default(0)
-  status  MoneyStatus @default(PENDING)
+  id     String      @id @default(auto()) @map("_id") @db.ObjectId
+  userId String      @db.ObjectId
+  bankId String      @db.ObjectId
+  amount Int         @default(0)
+  status MoneyStatus @default(PENDING)
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   bank Bank @relation(fields: [bankId], references: [id], onDelete: Cascade)
