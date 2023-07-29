@@ -30,3 +30,45 @@ export async function POST(request: Request) {
     return NextResponse.json(error);
   }
 }
+
+export async function PUT(request: Request) {
+  const currentUser = await getCurrentUser();
+  const body = await request.json();
+
+  if (!currentUser) {
+    return NextResponse.error();
+  }
+
+  if (currentUser.role !== "BANK") {
+    return NextResponse.error();
+  }
+
+  const { id, status } = body;
+
+  try {
+    const applyResponse = await prisma?.approveMoney.update({
+      where: {
+        id: id,
+      },
+      data: {
+        status: status,
+      },
+    });
+
+    const bankResponse = await prisma?.bank.update({
+      where: {
+        id: applyResponse.bankId,
+      },
+      data: {
+        currentMoney: {
+          increment: applyResponse.amount,
+        },
+      },
+    });
+
+    return NextResponse.json(bankResponse);
+  } catch (error) {
+    console.error("Error occurred while creating the record:", error);
+    return NextResponse.error();
+  }
+}
