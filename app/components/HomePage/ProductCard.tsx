@@ -3,6 +3,7 @@
 import CartProducts from "@/app/store/CartProducts";
 import { Product, User } from "@prisma/client";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useCallback, useState } from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 
@@ -19,37 +20,63 @@ const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   const cartProduct = CartProducts();
   const [isAddDisable, setIsAddDisable] = useState(false);
+  const router = useRouter();
 
   const { addProduct, products: cartProducts, removeProduct } = cartProduct;
 
-  const addProductButton = useCallback(() => {
-    addProduct(product);
-  }, [product, addProduct]);
-
-  const addProductFromCart = useCallback(() => {
-    const selectAmount = cartProducts
-      .filter((item) => item.id === product.id)
-      .map((item) => item.stock);
-
-    if (
-      selectAmount.length > 0 &&
-      selectAmount.every((amount) => amount >= stock)
-    ) {
-      setIsAddDisable(true);
-    } else {
-      setIsAddDisable(false);
+  const addProductButton = useCallback(
+    (e: React.MouseEvent) => {
+      // Prevent the click event from propagating to the parent element
+      e.stopPropagation();
       addProduct(product);
-    }
-  }, [addProduct, cartProducts, product, stock]);
+    },
+    [product, addProduct]
+  );
+
+  const addProductFromCart = useCallback(
+    (event: React.MouseEvent) => {
+      event.stopPropagation();
+      const selectAmount = cartProducts
+        .filter((item) => item.id === product.id)
+        .map((item) => item.stock);
+
+      if (
+        selectAmount.length > 0 &&
+        selectAmount.every((amount) => amount >= stock)
+      ) {
+        setIsAddDisable(true);
+      } else {
+        setIsAddDisable(false);
+        addProduct(product);
+      }
+    },
+    [addProduct, cartProducts, product, stock]
+  );
+
+  const handleRemoveProduct = useCallback(
+    (event: React.MouseEvent) => {
+      event.stopPropagation();
+
+      removeProduct(product);
+    },
+    [product, removeProduct]
+  );
+
+  const handleRouterPush = useCallback(() => {
+    router.push(`/single-product/${product.id}`);
+  }, [product.id, router]);
 
   return (
-    <div className="transition ease-in-out duration-300   hover:scale-110 ">
+    <div className="transition ease-in-out duration-300    hover:scale-110 ">
       <div className="relative  flex flex-col items-center justify-center ">
         <div className="container">
           <div className="max-w-md w-full bg-gray-900 shadow-lg rounded-md p-6">
             <div className="flex flex-col ">
               <div className="">
-                <div className="relative h-62 w-full mb-3">
+                <div
+                  onClick={handleRouterPush}
+                  className="relative h-62 w-full mb-3"
+                >
                   <div className="absolute flex flex-col top-0 right-0 p-3">
                     <button className="transition ease-in duration-300 bg-gray-800  hover:text-purple-500 shadow hover:shadow-md text-gray-500 rounded-full w-8 h-8 text-center p-1">
                       <svg
@@ -175,32 +202,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
                       </svg>
                     </button>
                     <AiOutlineMinus
-                      onClick={() => removeProduct(product)}
+                      onClick={handleRemoveProduct}
                       className="text-white cursor-pointer text-sm font-bold "
                     />
                     <div className="text-white text-xl p-1 ">
-                      {/* {cartProducts.length === 0 ? (
-                        <>0</>
-                      ) : (
-                        <>
-                          {cartProducts.map((selectedProdect) => {
-                            if (selectedProdect.id === product.id) {
-                              return selectedProdect.stock;
-                            } else {
-                              return 0;
-                            }
-                          })}
-                        </>
-                      )} */}
-
-                      {cartProducts.map((selectedProdect) => {
-                        if (selectedProdect.id === product.id) {
-                          const value = selectedProdect.stock;
-
-                          if (!value) return 0;
-                          else return value;
-                        }
-                      })}
+                      {cartProducts.find(
+                        (currentProduct) => currentProduct.id === product.id
+                      )?.stock || 0}
                     </div>
                     <AiOutlinePlus
                       onClick={addProductFromCart}

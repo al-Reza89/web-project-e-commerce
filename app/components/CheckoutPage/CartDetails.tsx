@@ -1,5 +1,6 @@
 "use client";
 import CartProducts from "@/app/store/CartProducts";
+import { useRouter } from "next/navigation";
 /* eslint-disable @next/next/no-img-element */
 
 import React from "react";
@@ -25,8 +26,10 @@ const CartDetails: React.FC<CartDetailsProps> = ({
     removeProduct,
   } = CartProducts();
 
+  const router = useRouter();
+
   return (
-    <div className="bg-gray-100 max-w-4xl mx-auto shadow-2xl ">
+    <div className="bg-gray-100 max-w-screen-lg mx-auto shadow-2xl ">
       <div className=" mx-auto ">
         <div className="flex shadow my-10">
           <div className="w-3/4 bg-white px-10 ">
@@ -56,7 +59,11 @@ const CartDetails: React.FC<CartDetailsProps> = ({
                 >
                   <div className="flex w-2/5">
                     <div className="w-20">
-                      <img className="h-24" src={cartProduct.imageSrc} alt="" />
+                      <img
+                        className=" object-cover hover:scale-125 transition ease-in-out  "
+                        src={cartProduct.imageSrc}
+                        alt=""
+                      />
                     </div>
                     <div className="flex flex-col justify-between ml-4 flex-grow">
                       <span className="font-bold text-sm">
@@ -104,9 +111,9 @@ const CartDetails: React.FC<CartDetailsProps> = ({
               );
             })}
 
-            <a
-              href="#"
-              className="flex font-semibold text-indigo-600 text-sm mt-10"
+            <div
+              onClick={() => router.push("/")}
+              className="flex font-semibold text-indigo-600 text-sm mt-10 cursor-pointer "
             >
               <svg
                 className="fill-current mr-2 text-indigo-600 w-4"
@@ -115,7 +122,7 @@ const CartDetails: React.FC<CartDetailsProps> = ({
                 <path d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z" />
               </svg>
               Continue Shopping
-            </a>
+            </div>
           </div>
 
           <div id="summary" className="w-1/4 px-8 py-10">
