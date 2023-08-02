@@ -25,15 +25,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   const { addProduct, products: cartProducts, removeProduct } = cartProduct;
 
-  const addProductButton = useCallback(
-    (e: React.MouseEvent) => {
-      // Prevent the click event from propagating to the parent element
-      e.stopPropagation();
-      addProduct(product);
-    },
-    [product, addProduct]
-  );
-
   const addProductFromCart = useCallback(
     (event: React.MouseEvent) => {
       event.stopPropagation();
@@ -176,7 +167,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   </div>
                   <div className="flex space-x-2 text-sm font-medium justify-start items-center">
                     <button
-                      onClick={addProductButton}
+                      onClick={addProductFromCart}
                       className="transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-indigo-700 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-indigo-900 "
                     >
                       <span>Add Cart</span>

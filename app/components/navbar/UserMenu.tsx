@@ -95,7 +95,12 @@ const UserMenu: React.FC<UserMenuProps> = ({
                     label="Create Bank Acc."
                   />
                 )}
-                <MenuItem onClick={() => {}} label="My Order" />
+                <MenuItem
+                  onClick={() => {
+                    router.push("/my-order");
+                  }}
+                  label="My Order"
+                />
                 {bankInformation?.createStatus && (
                   <MenuItem onClick={applyMoneyModal.onOpen} label="Refund" />
                 )}
@@ -105,6 +110,15 @@ const UserMenu: React.FC<UserMenuProps> = ({
                     <MenuItem
                       onClick={productModal.onOpen}
                       label="Create Product"
+                    />
+                  </div>
+                )}
+                {currentUser.role === "BANK" && (
+                  <div>
+                    <hr />
+                    <MenuItem
+                      onClick={() => router.push("/bank-admin")}
+                      label="bank admin"
                     />
                   </div>
                 )}
