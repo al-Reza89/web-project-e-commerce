@@ -5,6 +5,7 @@ import { Product, User } from "@prisma/client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useState } from "react";
+import { toast } from "react-hot-toast";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 
 interface ProductCardProps {
@@ -44,6 +45,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         selectAmount.length > 0 &&
         selectAmount.every((amount) => amount >= stock)
       ) {
+        toast.error("sorry you fillup maximum stock");
         setIsAddDisable(true);
       } else {
         setIsAddDisable(false);

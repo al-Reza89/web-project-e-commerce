@@ -1,4 +1,5 @@
 import prisma from "@/app/libs/prismadb";
+import { NextResponse } from "next/server";
 import { toast } from "react-hot-toast";
 
 export default async function getOrderIdDetails(params: string) {
@@ -35,6 +36,6 @@ export default async function getOrderIdDetails(params: string) {
 
     return cartDetails;
   } catch (error: any) {
-    return null;
+    return NextResponse.error();
   }
 }
