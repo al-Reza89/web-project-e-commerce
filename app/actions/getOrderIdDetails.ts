@@ -31,7 +31,7 @@ export default async function getOrderIdDetails(params: string) {
       },
     });
 
-    console.log(cartDetails);
+    // console.log(cartDetails);
 
     return cartDetails;
   } catch (error: any) {

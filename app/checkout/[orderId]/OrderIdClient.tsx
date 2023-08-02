@@ -50,7 +50,7 @@ const OrderIdClient: React.FC<OrderIdClientProps> = ({
       <EmptyState title="sorry " subtitle="No order details with this ID" />
     );
   }
-  console.log(orderIdDetails);
+  // console.log(orderIdDetails);
 
   const handleDownloadPdf = () => {
     const element = document.getElementById("pdf-container"); // Replace "pdf-container" with the ID of the container that wraps the content you want to download as a PDF.

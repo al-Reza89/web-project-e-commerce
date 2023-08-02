@@ -111,7 +111,7 @@ const AllOrderClientTable: React.FC<AllOrderClientTableProps> = ({ rows }) => {
   const router = useRouter();
 
   const handleRowSelected = (params: any) => {
-    console.log(params.id);
+    // console.log(params.id);
     router.push(`/checkout/${params.id}`);
   };
 

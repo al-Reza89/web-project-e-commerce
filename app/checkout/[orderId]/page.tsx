@@ -29,7 +29,7 @@ const OrderIdPage = async ({ params }: { params: IParams }) => {
     return <EmptyState />;
   }
 
-  console.log({ orderIdDetails: orderIdDetails });
+  // console.log({ orderIdDetails: orderIdDetails });
 
   return (
     <OrderIdClient

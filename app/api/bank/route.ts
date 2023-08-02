@@ -22,7 +22,7 @@ export async function POST(request: Request) {
       },
     });
 
-    console.log(BankResponse);
+    // console.log(BankResponse);
 
     return NextResponse.json(BankResponse);
   } catch (error) {

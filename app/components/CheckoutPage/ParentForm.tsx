@@ -147,7 +147,7 @@ const ParentForm: React.FC<ParentFormProps> = ({ userId, bankInformation }) => {
         clearProduct();
       })
       .catch((error) => {
-        console.log({ error: error });
+        // console.log({ error: error });
         toast.error("try again later");
       })
       .finally(() => {
