@@ -13,6 +13,7 @@ import axios from "axios";
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import { useRouter } from "next/navigation";
+import Steps from "./Steps";
 
 interface ParentFormProps {
   userId: string | undefined;
@@ -161,7 +162,10 @@ const ParentForm: React.FC<ParentFormProps> = ({ userId, bankInformation }) => {
       ) : (
         <form onSubmit={onSubmit}>
           <div>
-            {currentStepIndex + 1}/{steps.length}
+            <Steps
+              currentStep={currentStepIndex + 1}
+              stepLength={steps.length}
+            />
           </div>
           <div>{step}</div>
         </form>
