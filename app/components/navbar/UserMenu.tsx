@@ -104,6 +104,12 @@ const UserMenu: React.FC<UserMenuProps> = ({
                 {bankInformation?.createStatus && (
                   <MenuItem onClick={applyMoneyModal.onOpen} label="Refund" />
                 )}
+                {bankInformation?.createStatus && (
+                  <MenuItem
+                    onClick={() => router.push("/refund-request")}
+                    label="Refund Request"
+                  />
+                )}
                 {currentUser.role === "ADMIN" && (
                   <div>
                     <hr />
