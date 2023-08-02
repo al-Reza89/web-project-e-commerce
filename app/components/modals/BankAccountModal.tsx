@@ -41,7 +41,7 @@ const BankAccountModal: React.FC<BankAccoutModalProps> = ({}) => {
         reset();
         bankModal.onClose();
       })
-      .catch(() => {
+      .catch((error) => {
         toast.error("Something went wrong!");
       })
       .finally(() => {

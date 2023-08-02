@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import useLoginModal from "../hooks/useLoginModal";
-import getCurrentUser from "./getCurrentUser";
+import prisma from "@/app/libs/prismadb";
 
 export default async function getAllOrderById(userId: string) {
   try {
