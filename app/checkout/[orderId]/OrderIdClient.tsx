@@ -2,7 +2,6 @@
 "use client";
 import EmptyState from "@/app/components/EmptyState";
 import { Cart, CartItem, Product, User } from "@prisma/client";
-import html2pdf from "html2pdf.js";
 
 import React from "react";
 
@@ -68,8 +67,6 @@ const OrderIdClient: React.FC<OrderIdClientProps> = ({
       html2canvas: { scale: 2 },
       jsPDF: { unit: "mm", format: "a4", orientation: "landscape" },
     };
-
-    html2pdf().set(opt).from(element).save();
   };
 
   return (
@@ -277,7 +274,7 @@ const OrderIdClient: React.FC<OrderIdClientProps> = ({
                 </div>
                 <div className="flex w-full mt-2 justify-center items-center md:justify-start md:items-start">
                   <button
-                    onClick={handleDownloadPdf}
+                    onClick={() => {}}
                     className="mt-6 md:mt-0 py-5 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 font-medium w-96 2xl:w-full text-base leading-4 text-gray-800"
                   >
                     Download Receive
