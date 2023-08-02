@@ -29,7 +29,7 @@ interface OrderIdDetails {
 }
 
 interface OrderIdClientProps {
-  orderIdDetails: OrderIdDetails | null;
+  orderIdDetails: OrderIdDetails | any;
   currentMoney: number | undefined;
   image: string | undefined | null;
   name: string | undefined | null;
@@ -45,7 +45,7 @@ const OrderIdClient: React.FC<OrderIdClientProps> = ({
   email,
   userId,
 }) => {
-  if (orderIdDetails === null || userId === undefined) {
+  if (userId === undefined) {
     return (
       <EmptyState title="sorry " subtitle="No order details with this ID" />
     );
@@ -86,7 +86,7 @@ const OrderIdClient: React.FC<OrderIdClientProps> = ({
               <p className="text-lg md:text-xl font-semibold leading-6 xl:leading-5 text-gray-800">
                 Customer’s Cart
               </p>
-              {orderIdDetails.items.map((item) => (
+              {orderIdDetails.items.map((item: any) => (
                 <div
                   key={item.id}
                   className="mt-4  md:mt-6 flex  flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full "

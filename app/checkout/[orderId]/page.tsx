@@ -25,6 +25,12 @@ const OrderIdPage = async ({ params }: { params: IParams }) => {
   const orderIdDetails = await getOrderIdDetails(params.orderId);
   const bankInformation = await getBankInformation(currentUser?.id);
 
+  if (!orderIdDetails) {
+    return <EmptyState />;
+  }
+
+  console.log({ orderIdDetails: orderIdDetails });
+
   return (
     <OrderIdClient
       orderIdDetails={orderIdDetails}

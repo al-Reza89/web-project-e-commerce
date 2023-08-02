@@ -13,7 +13,6 @@ export default async function getOrderIdDetails(params: string) {
         street: true,
         zip: true,
         id: true,
-        createdAt: true,
         items: {
           select: {
             quantity: true,

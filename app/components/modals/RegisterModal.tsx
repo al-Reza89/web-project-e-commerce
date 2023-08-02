@@ -58,7 +58,11 @@ const RegisterModal = () => {
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
-      <Heading title="Welcome to Cherry" subtitle="Create an account" />
+      <Heading
+        title="Welcome to Cherry"
+        subtitle="Create an account"
+        center={false}
+      />
       <Input
         id="email"
         label="Email"
@@ -128,6 +132,7 @@ const RegisterModal = () => {
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}
       footer={footerContent}
+      secondaryActionLabel=""
     />
   );
 };

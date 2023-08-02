@@ -140,6 +140,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({}) => {
       actionLebel="create your product"
       body={bodyContent}
       disabled={isLoading}
+      secondaryActionLabel=""
     />
   );
 };

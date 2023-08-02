@@ -76,6 +76,7 @@ const BankAccountModal: React.FC<BankAccoutModalProps> = ({}) => {
       body={bodyContent}
       actionLebel="create bank secret"
       disabled={isLoading}
+      secondaryActionLabel=""
     />
   );
 };

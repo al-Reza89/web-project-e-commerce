@@ -131,6 +131,7 @@ const ApplyMoneyModal: React.FC<ApplyMoneyModalProps> = ({
       actionLebel="apply for money"
       disabled={isLoading}
       onSubmit={handleSubmit(onSubmit)}
+      secondaryActionLabel=""
     />
   );
 };
