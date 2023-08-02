@@ -5,7 +5,7 @@ export async function POST(request: Request) {
   const currentUser = await getCurrentUser();
 
   if (!currentUser) {
-    return NextResponse.json("no current user");
+    return NextResponse.error();
   }
 
   const body = await request.json();
@@ -21,8 +21,10 @@ export async function POST(request: Request) {
       },
     });
 
+    console.log(BankResponse);
+
     return NextResponse.json(BankResponse);
   } catch (error) {
-    return NextResponse.json(error);
+    return NextResponse.error();
   }
 }
