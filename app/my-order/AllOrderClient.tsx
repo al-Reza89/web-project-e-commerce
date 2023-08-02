@@ -110,9 +110,9 @@ interface AllOrderClientTableProps {
 const AllOrderClientTable: React.FC<AllOrderClientTableProps> = ({ rows }) => {
   const router = useRouter();
 
-  const handleRowSelected = (params: GridRowSelectedParams) => {
-    console.log(params);
-    // router.push('/checkout')
+  const handleRowSelected = (params: any) => {
+    console.log(params.id);
+    router.push(`/checkout/${params.id}`);
   };
 
   return (
@@ -130,7 +130,7 @@ const AllOrderClientTable: React.FC<AllOrderClientTableProps> = ({ rows }) => {
           getRowClassName={(params) =>
             params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"
           }
-          //   onRowSelectionModelChange={handleRowSelected}
+          onRowClick={handleRowSelected}
         />
       </div>
     </div>
