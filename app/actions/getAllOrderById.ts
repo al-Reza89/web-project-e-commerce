@@ -15,17 +15,11 @@ export default async function getAllOrderById(userId: string) {
         street: true,
         mobile: true,
         totalPrice: true,
+        status: true,
       },
     });
 
-    const getAllOrderWithVerify = getAllOrder?.map((order) => ({
-      ...order,
-      verifyPerchage: "success",
-    }));
-
-    // console.log(getAllOrderWithVerify);
-
-    return JSON.parse(JSON.stringify(getAllOrderWithVerify));
+    return getAllOrder;
   } catch (error) {
     return NextResponse.error();
   }

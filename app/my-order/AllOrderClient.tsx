@@ -96,7 +96,7 @@ const columns: GridColDef[] = [
     headerClassName: "custom-header",
   },
   {
-    field: "verifyPerchage",
+    field: "status",
     headerName: "Verify Perchage",
     width: 180,
     headerClassName: "custom-header",

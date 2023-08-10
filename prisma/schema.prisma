@@ -21,6 +21,7 @@ model User {
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
   favoriteIds    String[]  @db.ObjectId
+  money          Int?
 
   banks         Bank?
   accounts      Account[]
@@ -87,8 +88,8 @@ model ApproveMoney {
 }
 
 model Cart {
-  id         String     @id @default(auto()) @map("_id") @db.ObjectId
-  userId     String     @db.ObjectId
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String      @db.ObjectId
   items      CartItem[]
   totalPrice Int
   firstName  String
@@ -96,6 +97,7 @@ model Cart {
   street     String
   zip        String
   mobile     String
+  status     OrderStatus @default(PENDING)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -123,4 +125,10 @@ enum Role {
   USER
   ADMIN
   BANK
+}
+
+enum OrderStatus {
+  ACCEPT
+  PENDING
+  DECLINE
 }

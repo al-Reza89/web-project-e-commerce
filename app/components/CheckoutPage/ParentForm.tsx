@@ -141,9 +141,9 @@ const ParentForm: React.FC<ParentFormProps> = ({ userId, bankInformation }) => {
       .post("/api/cart", mergeData)
       .then((response) => {
         toast.success("place your order");
-        router.refresh();
         setData(INITIAL_DATA);
         router.push(`/checkout/${response.data.id}`);
+        router.refresh();
         clearProduct();
       })
       .catch((error) => {
