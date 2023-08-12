@@ -158,7 +158,7 @@ const ParentForm: React.FC<ParentFormProps> = ({ userId, bankInformation }) => {
   return (
     <div>
       {cartProducts.length === 0 ? (
-        <EmptyState title="sorry" subtitle="Added product to your cart" />
+        <EmptyState title="" subtitle="you should Add product to your cart" />
       ) : (
         <form onSubmit={onSubmit}>
           <div>

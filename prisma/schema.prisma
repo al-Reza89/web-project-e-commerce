@@ -21,7 +21,7 @@ model User {
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
   favoriteIds    String[]  @db.ObjectId
-  money          Int?
+  money          Int       @default(0)
 
   banks         Bank?
   accounts      Account[]

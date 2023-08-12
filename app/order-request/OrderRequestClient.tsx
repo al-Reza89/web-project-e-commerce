@@ -31,7 +31,7 @@ const CountButton: React.FC<DataProps> = ({ data }) => {
   const router = useRouter();
 
   const handleClick = React.useCallback(
-    (id: string) => {
+    (id: string, totalPrice: number) => {
       if (data.id === id) {
         //   console.log(`onclick number ${id}`);
 
@@ -40,21 +40,26 @@ const CountButton: React.FC<DataProps> = ({ data }) => {
         const data = {
           id: id,
           status: selectedOption,
+          totalPrice: totalPrice,
         };
 
-        axios
-          .put("/api/order-request", data)
-          .then(() => {
-            toast.success("update the request");
-            router.refresh();
-            setSelectedOption("PENDING");
-          })
-          .catch((error) => {
-            console.log({ error: error });
+        if (selectedOption === "PENDING") {
+          toast.success("change successfully");
+        } else {
+          axios
+            .put("/api/order-request", data)
+            .then(() => {
+              toast.success("update the request");
+              router.refresh();
+              setSelectedOption("PENDING");
+            })
+            .catch((error) => {
+              console.log({ error: error });
 
-            toast.error("something went wrong");
-          })
-          .finally(() => {});
+              toast.error("something went wrong");
+            })
+            .finally(() => {});
+        }
 
         if (selectedOption) {
           console.log("Selected option:", selectedOption);
@@ -81,7 +86,7 @@ const CountButton: React.FC<DataProps> = ({ data }) => {
           </select>
           <div
             className={`${isLoading ? "disabled" : ""}`}
-            onClick={() => handleClick(data.id)}
+            onClick={() => handleClick(data.id, data.totalPrice)}
           >
             <BsFillCheckCircleFill
               fill="green"
@@ -156,13 +161,12 @@ const columns: GridColDef[] = [
 
 const AcceptOrderTable: React.FC<{ rows: RowData[] | any }> = ({ rows }) => {
   return (
-    <div className="pt-24">
+    <div className="pt-4">
       <Box sx={{ height: 600, width: "100%" }}>
         <DataGrid
           rows={rows}
           columns={columns}
           pageSizeOptions={[5]}
-          checkboxSelection
           disableRowSelectionOnClick
         />
       </Box>

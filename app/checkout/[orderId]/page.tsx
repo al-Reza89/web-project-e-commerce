@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import OrderIdClient from "./OrderIdClient";
 import getOrderIdDetails from "@/app/actions/getOrderIdDetails";
 import EmptyState from "@/app/components/EmptyState";
 import getBankInformation from "@/app/actions/getBankInformation";
 import getCurrentUser from "@/app/actions/getCurrentUser";
+import CartProducts from "@/app/store/CartProducts";
 
 interface IParams {
   orderId?: string;

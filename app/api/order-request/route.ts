@@ -14,22 +14,62 @@ export async function PUT(request: Request) {
   }
 
   const body = await request.json();
-  const { id, status } = body;
+  const { id, status, totalPrice } = body;
 
   console.log({ id: id });
   console.log({ status: status });
 
   try {
-    const applyResponse = await prisma?.cart.update({
-      where: {
-        id: id,
-      },
-      data: {
-        status: status,
-      },
-    });
+    if (status === "DECLINE") {
+      const applyResponse = await prisma?.cart.update({
+        where: {
+          id: id,
+        },
+        data: {
+          status: status,
+        },
+        select: {
+          userId: true,
+        },
+      });
 
-    return NextResponse.json(applyResponse);
+      const updatRes = await prisma.bank.update({
+        where: {
+          userId: applyResponse?.userId,
+        },
+        data: {
+          currentMoney: {
+            increment: totalPrice,
+          },
+        },
+      });
+
+      return NextResponse.json(updatRes);
+    } else if (status === "ACCEPT") {
+      const applyResponse = await prisma?.cart.update({
+        where: {
+          id: id,
+        },
+        data: {
+          status: status,
+        },
+      });
+
+      const updateMoney = await prisma.user.update({
+        where: {
+          id: currentUser.id,
+        },
+        data: {
+          money: currentUser.money + totalPrice,
+        },
+      });
+
+      console.log({ updateMoney: updateMoney });
+
+      return NextResponse.json(applyResponse);
+    } else {
+      return NextResponse.json;
+    }
   } catch (error) {
     console.error("Error occurred while creating the record:", error);
     return NextResponse.error();
