@@ -15,7 +15,7 @@ const Steps: React.FC<StepsProps> = ({ currentStep, stepLength }) => {
             <li
               className={`flex items-center justify-center  gap-2 p-4 ${
                 currentStep === 1 &&
-                "bg-blue-300 rounded-md transition translate-x-2 ease-in-out "
+                "bg-rose-300 rounded-md transition translate-x-2 ease-in-out "
               } `}
             >
               <svg
@@ -42,7 +42,7 @@ const Steps: React.FC<StepsProps> = ({ currentStep, stepLength }) => {
             <li
               className={`relative flex items-center justify-center gap-2 bg-gray-50 p-4 ${
                 currentStep === 2 &&
-                "bg-indigo-300 rounded-md transition translate-x-2 ease-in-out"
+                "bg-rose-300 rounded-md transition translate-x-2 ease-in-out"
               }`}
             >
               <span className="absolute -left-2 top-1/2 hidden h-4 w-4 -translate-y-1/2 rotate-45 border border-gray-100 ltr:border-b-0 ltr:border-s-0 ltr:bg-white rtl:border-e-0 rtl:border-t-0 rtl:bg-gray-50 sm:block"></span>
@@ -78,7 +78,7 @@ const Steps: React.FC<StepsProps> = ({ currentStep, stepLength }) => {
             <li
               className={`flex items-center justify-center gap-2 p-4 ${
                 currentStep === 3 &&
-                "bg-blue-300 rounded-md transition translate-x-2 ease-in-out"
+                "bg-rose-300 rounded-md transition translate-x-2 ease-in-out"
               } `}
             >
               <svg

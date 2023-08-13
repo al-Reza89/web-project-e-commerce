@@ -146,11 +146,11 @@ const UserInfoInput: React.FC<UserInfoInputProps> = ({
         <div className="flex justify-between pt-4 gap-2 ">
           <button
             onClick={back}
-            className="bg-blue-400 w-[50%]  text-xl py-1 font-semibold "
+            className="bg-rose-400 w-[50%]  text-xl py-1 font-semibold "
           >
             Back
           </button>
-          <button className="bg-blue-400 w-[50%]  text-xl py-1 font-semibold ">
+          <button className="bg-rose-400 w-[50%]  text-xl py-1 font-semibold ">
             Next
           </button>
         </div>

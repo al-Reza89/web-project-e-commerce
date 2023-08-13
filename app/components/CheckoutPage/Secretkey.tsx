@@ -62,7 +62,7 @@ const SecretKey: React.FC<SecretKeyProps> = ({
           </button>
           <button
             disabled={isLoading}
-            className={`bg-green-500 w-full p-1 text-lg font-semibold ${
+            className={`bg-rose-500 w-full p-1 text-lg font-semibold ${
               isLoading ? "cursor-not-allowed" : ""
             }`}
           >

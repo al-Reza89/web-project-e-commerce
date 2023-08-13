@@ -55,18 +55,22 @@ export async function PUT(request: Request) {
       },
     });
 
-    const bankResponse = await prisma?.bank.update({
-      where: {
-        id: applyResponse.bankId,
-      },
-      data: {
-        currentMoney: {
-          increment: applyResponse.amount,
+    if (status === "APPROVE") {
+      const bankResponse = await prisma?.bank.update({
+        where: {
+          id: applyResponse.bankId,
         },
-      },
-    });
+        data: {
+          currentMoney: {
+            increment: applyResponse.amount,
+          },
+        },
+      });
 
-    return NextResponse.json(bankResponse);
+      NextResponse.json(bankResponse);
+    }
+
+    return NextResponse.json(applyResponse);
   } catch (error) {
     console.error("Error occurred while creating the record:", error);
     return NextResponse.error();

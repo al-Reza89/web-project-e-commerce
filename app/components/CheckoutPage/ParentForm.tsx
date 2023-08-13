@@ -33,7 +33,7 @@ type FormData = {
 const INITIAL_DATA: FormData = {
   firstName: "",
   lastName: "",
-  street: ",",
+  street: "",
   city: "",
   zip: "",
   mobile: "",
